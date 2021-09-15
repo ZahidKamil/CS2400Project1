@@ -1,4 +1,4 @@
-package com.company;
+// package com.company;
 
 /** A demonstration of the class ResizableArrayBag
  @author Frank M. Carrano

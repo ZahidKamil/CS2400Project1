@@ -1,4 +1,5 @@
-package com.company;
+// package com.company;
+
 
 /**
  An interface that describes the operations of a bag of objects.
@@ -48,4 +49,18 @@ public interface BagInterface<T>
      @return  A newly allocated array of all the entries in the bag.
      Note: If the bag is empty, the returned array is empty. */
     public T[] toArray();
+
+    /** Retrieves the entries that are common between this bag and the incoming bag
+     * @param otherBag a bag that implements BagInterface<T>
+     * @return an intersection bag that contains the common items of this bag and the input bag */
+    public BagInterface<T> intersection(BagInterface<T> otherBag);
+
+    /** Retrieves the addition of entries in this bag and the incoming bag
+     * @param otherBag a bag that implements BagInterface<T>
+     * @return a union bag containing the addition of entries in both bags
+     */
+    public BagInterface<T> union(BagInterface<T> otherBag);
+
+    public BagInterface<T> difference(BagInterface<T> otherBag);
+
 } // end BagInterface

@@ -1,5 +1,4 @@
 package com.company;
-
 import java.util.Arrays;
 /**
  A class that implements a bag of objects by using an array.
@@ -224,6 +223,21 @@ public final class ResizableArrayBag<T> implements BagInterface<T>
         if (!integrityOK)
             throw new SecurityException ("ArrayBag object is corrupt.");
     } // end checkintegrity
+
+    public BagInterface<T> intersection(BagInterface<T> otherBag)
+    {
+        return otherBag;
+    }
+
+    public BagInterface<T> union(BagInterface<T> otherBag)
+    {
+        return otherBag;
+    }
+
+    public BagInterface<T> difference(BagInterface<T> otherBag)
+    {
+        return otherBag;
+    }
 } // end ResizableArrayBag
 
 /*
