@@ -11,16 +11,21 @@ public class ArrayBagTest
     {
         // A bag whose initial capacity is small
         BagInterface<String> aBag = new ResizableArrayBag<>(3);
+        BagInterface<String> bBag = new ResizableArrayBag<>(3);
         testIsEmpty(aBag, true);
 
         System.out.println("Adding to the bag more strings than its initial capacity.");
         String[] contentsOfBag = {"A", "D", "B", "A", "C", "A", "D"};
         testAdd(aBag, contentsOfBag);
+        
+        String[] contentsOfBagB = {"A", "A", "C", "C", "D", "Z"};
+        testAdd(bBag, contentsOfBagB);
 
         testIsEmpty(aBag, false);
         String[] testStrings2 = {"A", "B", "C", "D", "Z"};
         testFrequency(aBag, testStrings2);
         testContains(aBag, testStrings2);
+        testOperations(aBag, bBag);
 
         // Removing strings
         String[] testStrings3 = {"", "B", "A", "C", "Z"};
@@ -30,6 +35,7 @@ public class ArrayBagTest
         aBag.clear();
         testIsEmpty(aBag, true);
         displayBag(aBag);
+
     } // end main
 
     // Tests the method add.
@@ -110,11 +116,29 @@ public class ArrayBagTest
             System.out.println("Does this bag contain " + tests[index] +
                     "? " + aBag.contains(tests[index]));
     } // end testContains
+    
+    private static void testOperations(BagInterface<String> aBag, BagInterface<String> bBag) {
+    	
+    	System.out.println("\nTesting the operations Intersection, Union, and Difference on: ");
+    	System.out.println("Bag A: " + aBag);
+    	System.out.println("Bag B: " + bBag);
+    	
+    	System.out.println("The Intersection of Bag A and Bag B: ");
+    	System.out.println(aBag.intersection(bBag));
+    	System.out.println("The Union of Bag A and Bag B");
+    	System.out.println(aBag.union(bBag));
+    	System.out.println("The Difference of Bag A minus Bag B");
+    	System.out.println(aBag.difference(bBag));
+    	System.out.println("The Difference of Bag B minus Bag A");
+    	System.out.println(bBag.difference(aBag));
+    	System.out.println("The Difference of Bag A minus Bag A");
+    	System.out.println(aBag.difference(aBag));
+    }
 
     // Tests the method toArray while displaying the bag.
     private static void displayBag(BagInterface<String> aBag)
     {
-        System.out.println("The bag contains " + aBag.getCurrentSize() +
+        /*System.out.println("The bag contains " + aBag.getCurrentSize() +
                 " string(s), as follows:");
         Object[] bagArray = aBag.toArray();
         for (int index = 0; index < bagArray.length; index++)
@@ -122,7 +146,9 @@ public class ArrayBagTest
             System.out.print(bagArray[index] + " ");
         } // end for
 
-        System.out.println();
+        System.out.println();*/
+    	
+    	System.out.println("The bag contains: " + aBag);
     } // end displayBag
 } // end ResizableArrayBagDemo
 /*
