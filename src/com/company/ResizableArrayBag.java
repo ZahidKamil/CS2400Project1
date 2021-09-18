@@ -1,4 +1,4 @@
-package com.company;
+
 import java.util.Arrays;
 /**
  A class that implements a bag of objects by using an array.
@@ -204,7 +204,13 @@ public final class ResizableArrayBag<T> implements BagInterface<T>
     // Precondition: checkInitialization has been called.
     private void doubleCapacity()
     {
-        int newLength = 2 * bag.length;
+    	int newLength;
+    	if (bag.length == 0) {
+    		newLength = 1;
+    	} else {
+    		newLength = 2 * bag.length;
+    	}
+        
         checkCapacity(newLength);
         bag = Arrays.copyOf(bag, newLength);
     } // end doubleCapacity
@@ -223,20 +229,72 @@ public final class ResizableArrayBag<T> implements BagInterface<T>
         if (!integrityOK)
             throw new SecurityException ("ArrayBag object is corrupt.");
     } // end checkintegrity
+    
+    public String toString() 
+    {
+    	String str = "[";
+    	for (int i = 0; i < numberOfEntries; i++)
+    		str += bag[i] + ",";
+    	if (numberOfEntries != 0)
+    		str = str.substring(0, str.length() - 1);
+    	str += "]";
+    	
+    	return str;
+    } //end toString
 
     public BagInterface<T> intersection(BagInterface<T> otherBag)
     {
-        return otherBag;
-    }
+    	int maxCap = 0;
+    	if (otherBag.getCurrentSize() > getCurrentSize()) {
+    		maxCap = otherBag.getCurrentSize();
+    	} else {
+    		getCurrentSize();
+    	} //end if
+    	BagInterface<T> newBag = new ResizableArrayBag(maxCap);
+    	
+    	int frequencyOfThisEntry = 0;
+    	for (int i = 0; i < numberOfEntries; i++) {
+    		if (otherBag.contains(bag[i])) {
+    			if (otherBag.getFrequencyOf(bag[i]) < getFrequencyOf(bag[i])) {
+    				//otherBag's frequency is used
+    				frequencyOfThisEntry = otherBag.getFrequencyOf(bag[i]);
+    			} else {
+    				//this bag's frequency is used
+    				frequencyOfThisEntry = getFrequencyOf(bag[i]);
+    			}
+    		} //end if
+    		for (int k = 0; k < frequencyOfThisEntry; k++) {
+    			newBag.add(bag[i]);
+    		} //end for
+    	} //end for
+        return newBag;
+    } //end intersection
 
     public BagInterface<T> union(BagInterface<T> otherBag)
     {
-        return otherBag;
-    }
+    	BagInterface<T> newBag = new ResizableArrayBag(otherBag.getCurrentSize() + getCurrentSize());
+    	
+    	for (int i = 0; i < getCurrentSize(); i++) {
+    		newBag.add(bag[i]);
+    	} //end for
+    	
+    	
+    	for (int i = 0; i < otherBag.getCurrentSize(); i++) {
+    		newBag.add(otherBag.toArray()[i]);
+    	} //end for
+    	
+        return newBag;
+    }//union
 
     public BagInterface<T> difference(BagInterface<T> otherBag)
     {
-        return otherBag;
+    	BagInterface<T> newBag = this;
+    	
+    	for (int i = 0; i < getCurrentSize(); i++) {
+    		newBag.remove(otherBag.toArray()[i]);
+    	} //end for
+    	
+        return newBag;
     }
 } // end ResizableArrayBag
 
