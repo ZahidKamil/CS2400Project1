@@ -263,8 +263,9 @@ public final class ResizableArrayBag<T> implements BagInterface<T>
     				frequencyOfThisEntry = getFrequencyOf(bag[i]);
     			}
     		} //end if
-    		for (int k = 0; k < frequencyOfThisEntry; k++) {
-    			newBag.add(bag[i]);
+         if(!(newBag.contains(bag[i])) && otherBag.contains(bag[i]))
+            for (int k = 0; k < frequencyOfThisEntry; k++) {
+               newBag.add(bag[i]);
     		} //end for
     	} //end for
         return newBag;
