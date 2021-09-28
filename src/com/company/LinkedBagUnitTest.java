@@ -180,10 +180,15 @@ class LinkedBagUnitTest {
       newBag.add("B");
       newBag.add("C");
       BagInterface<String> anotherBag = new LinkedBag<>();
-      anotherBag.add("A");
       anotherBag.add("B");
+      anotherBag.add("B");
+      anotherBag.add("D");
+      anotherBag.add("E");
       BagInterface<String> differenceBag = newBag.difference(anotherBag);
-      boolean test = differenceBag.contains("C") && !(differenceBag.contains("A")) && !(differenceBag.contains("B"));
+      BagInterface<String> differenceBag1 = anotherBag.difference(newBag);
+      boolean test = differenceBag.contains("C") && differenceBag.contains("A") && !(differenceBag.contains("B"));
+      boolean test1 = differenceBag1.contains("B") && differenceBag1.contains("D") && (differenceBag1.contains("E"));
       assertTrue(test);
+      assertTrue(test1);
    }
 }

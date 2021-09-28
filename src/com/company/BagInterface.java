@@ -61,6 +61,11 @@ public interface BagInterface<T>
      */
     public BagInterface<T> union(BagInterface<T> otherBag);
 
+    /**
+     *
+     * @param otherBag a bag that implments BagInterface<T>
+     * @return a difference bag that contains the difference between entries in both bags
+     */
     public BagInterface<T> difference(BagInterface<T> otherBag);
 
 } // end BagInterface

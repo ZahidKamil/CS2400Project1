@@ -3,8 +3,6 @@ import java.util.Arrays;
 /**
  A class that implements a bag of objects by using an array.
  The bag is never full.
- @author Frank M. Carrano, Timothy M. Henry
- @version 5.0
  */
 public final class ResizableArrayBag<T> implements BagInterface<T>
 {
@@ -148,10 +146,12 @@ public final class ResizableArrayBag<T> implements BagInterface<T>
         return anEntry.equals(result);
     } // end remove
 
-    // Locates a given entry within the array bag.
-    // Returns the index of the entry, if located,
-    // or -1 otherwise.
-    // Precondition: checkintegrity has been called.
+
+    /**
+     * Locates a given entry within the array bag. Precondition: checkintegrity has been called.
+     * @param anEntry
+     * @return Returns the index of the entry, if located, or -1 otherwise.
+     */
     private int getIndexOf(T anEntry)
     {
         int where = -1;
@@ -174,10 +174,12 @@ public final class ResizableArrayBag<T> implements BagInterface<T>
         return where;
     } // end getIndexOf
 
-    // Removes and returns the entry at a given index within the array.
-    // If no such entry exists, returns null.
-    // Precondition: 0 <= givenIndex < numberOfEntries.
-    // Precondition: checkintegrity has been called.
+    /**
+     * Precondition: 0 <= givenIndex < numberOfEntries.
+     * Precondition: checkintegrity has been called.
+     * @param givenIndex The index for which the entry to be removed.
+     * @return returns the entry at a given index within the array. If no such entry exists, returns null.
+     */
     private T removeEntry(int givenIndex)
     {
         T result = null;
@@ -195,13 +197,19 @@ public final class ResizableArrayBag<T> implements BagInterface<T>
     } // end removeEntry
 
     // Returns true if the array bag is full, or false if not.
+
+    /**
+     * @return Returns true if the array bag is full, or false if not.
+     */
     private boolean isArrayFull()
     {
         return numberOfEntries >= bag.length;
     } // end isArrayFull
 
-    // Doubles the size of the array bag.
-    // Precondition: checkInitialization has been called.
+    /**
+     * Doubles the size of the array bag.
+     * Precondition: checkInitialization has been called.
+     */
     private void doubleCapacity()
     {
     	int newLength;
@@ -215,7 +223,10 @@ public final class ResizableArrayBag<T> implements BagInterface<T>
         bag = Arrays.copyOf(bag, newLength);
     } // end doubleCapacity
 
-    // Throws an exception if the client requests a capacity that is too large.
+    /**
+     * Throws an exception if the client requests a capacity that is too large.
+     * @param capacity an integer that checks if the bag can contain this capacity value
+     */
     private void checkCapacity(int capacity)
     {
         if (capacity > MAX_CAPACITY)
@@ -223,18 +234,23 @@ public final class ResizableArrayBag<T> implements BagInterface<T>
                     "allowed maximum of " + MAX_CAPACITY);
     } // end checkCapacity
 
-    // Throws an exception if receiving object is not initialized.
+    /**
+     * Throws an exception if receiving object is not initialized.
+     */
     private void checkintegrity()
     {
         if (!integrityOK)
             throw new SecurityException ("ArrayBag object is corrupt.");
     } // end checkintegrity
-    
+
+    /**
+     * @return string containing the elements
+     */
     public String toString() 
     {
     	String str = "[";
     	for (int i = 0; i < numberOfEntries; i++)
-    		str += bag[i] + ",";
+    		str += (String)bag[i] + ",";
     	if (numberOfEntries != 0)
     		str = str.substring(0, str.length() - 1);
     	str += "]";
@@ -242,6 +258,11 @@ public final class ResizableArrayBag<T> implements BagInterface<T>
     	return str;
     } //end toString
 
+    /**
+     *
+     * @param otherBag a bag that implements BagInterface<T>
+     * @return a bag that contains entries of this bag and the bag to be passed.
+     */
     public BagInterface<T> intersection(BagInterface<T> otherBag)
     {
     	int maxCap = 0;
@@ -271,6 +292,11 @@ public final class ResizableArrayBag<T> implements BagInterface<T>
         return newBag;
     } //end intersection
 
+    /**
+     *
+     * @param otherBag a bag that implements BagInterface<T>
+     * @return a bag that contains both entries of this bag and the bag to be passed.
+     */
     public BagInterface<T> union(BagInterface<T> otherBag)
     {
     	BagInterface<T> newBag = new ResizableArrayBag(otherBag.getCurrentSize() + getCurrentSize());
@@ -287,12 +313,26 @@ public final class ResizableArrayBag<T> implements BagInterface<T>
         return newBag;
     }//union
 
+    /**
+     *
+     * @param otherBag a bag that implments BagInterface<T>
+     * @return a ResizableArrayBag that removes entries from this bag in which the other bag contains
+     */
     public BagInterface<T> difference(BagInterface<T> otherBag)
     {
-    	BagInterface<T> newBag = this;
-    	
-    	for (int i = 0; i < getCurrentSize(); i++) {
-    		newBag.remove(otherBag.toArray()[i]);
+    	BagInterface<T> newBag = new ResizableArrayBag<>();
+    	ResizableArrayBag<T> anotherBag = (ResizableArrayBag<T>) otherBag;
+
+        for(int i=0; i<getCurrentSize();i++)
+        {
+            newBag.add(bag[i]);
+        }
+
+    	for (int i = 0; i < otherBag.getCurrentSize(); i++) {
+            if(newBag.contains(anotherBag.bag[i]))
+            {
+                newBag.remove(anotherBag.bag[i]);
+            }
     	} //end for
     	
         return newBag;

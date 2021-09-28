@@ -1,4 +1,6 @@
 // package com.company;
+
+
 /**
  /**
  A class of bags whose entries are stored in a chain of linked nodes.
@@ -202,19 +204,22 @@ public final class LinkedBag<T> implements BagInterface<T>
     public BagInterface<T> union(BagInterface<T> otherBag)
     {
         BagInterface<T> unionBag = new LinkedBag<>();
-        T[] otherBagArray = otherBag.toArray();
+        LinkedBag<T> anotherBag = (LinkedBag<T>) otherBag;
         Node currentNode = firstNode;
-        //Adding entries of the referenced bag to the union bag
-        for(int i = 0; i < otherBagArray.length; i++)
-        {
-            unionBag.add(otherBagArray[i]);
-        }
 
-        //Adding the entries of this bag to the union bag
+        //Adding entries of the referenced bag to the union bag
         while(currentNode != null)
         {
             unionBag.add(currentNode.getData());
             currentNode = currentNode.getNextNode();
+        }
+
+        //Adding the entries of this bag to the union bag
+        Node otherBagNode = anotherBag.firstNode;
+        while(otherBagNode != null)
+        {
+            unionBag.add(otherBagNode.getData());
+            otherBagNode = otherBagNode.getNextNode();
         }
 
         return unionBag;
@@ -224,29 +229,33 @@ public final class LinkedBag<T> implements BagInterface<T>
     /**
      *
      * @param otherBag
-     * @return a bag containing the difference of this.bag compared to the input bag
+     * @return a LinkedBag that removes entries from this bag in which the other bag contains
      */
     public BagInterface<T> difference(BagInterface<T> otherBag)
     {
         BagInterface<T> differenceBag = new LinkedBag<>();
+        BagInterface<T> outsideBag = new LinkedBag<>();
         T[] otherBagArray = otherBag.toArray();
         Node currentNode = firstNode;
+        LinkedBag<T> anotherBag = (LinkedBag<T>) otherBag;
+
         while(currentNode!= null)
         {
             differenceBag.add(currentNode.getData());
             currentNode = currentNode.getNextNode();
         }
 
-        currentNode = firstNode;
-        int index = 0;
-        while(currentNode != null && index < otherBagArray.length)
+        currentNode = anotherBag.firstNode;
+        while(currentNode!=null)
         {
-            if(differenceBag.contains(otherBagArray[index]))
+            if(differenceBag.contains(currentNode.getData()))
             {
-                differenceBag.remove(otherBagArray[index]);
+                for(int i = 0; i < otherBag.getFrequencyOf(currentNode.getData()); i++)
+                {
+                    differenceBag.remove(currentNode.getData());
+                }
             }
             currentNode = currentNode.getNextNode();
-            index++;
         }
 
         return differenceBag;

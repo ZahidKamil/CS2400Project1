@@ -1,5 +1,4 @@
 // package com.company;
-
 import java.lang.reflect.Array;
 
 public class LinkedBagTest
@@ -149,6 +148,7 @@ public class LinkedBagTest
         }
     }
 
+
     //Tests the method of removing an unspecified entry
     private static void testRemove(BagInterface<String> aBag)
     {
@@ -178,6 +178,7 @@ public class LinkedBagTest
             displayBag(aBag);
         }
     }
+
 
     //Testing the intersection method in the BagInterface for a LinkedBag
     private static void testIntersection(BagInterface<String> aBag, BagInterface<String> bBag)
@@ -215,7 +216,7 @@ public class LinkedBagTest
         System.out.println("\nDisplaying the same bags to check if there are any changes made to the original bag");
         displayBagModify(aBag);
         displayBagModify(bBag);
-    } 
+    }
 }
  // end LinkedBagDemo1
 

@@ -1,5 +1,7 @@
 // package com.company;
 
+import org.jetbrains.annotations.NotNull;
+
 /** A demonstration of the class ResizableArrayBag
  @author Frank M. Carrano
  @author Timothy M. Henry
@@ -26,6 +28,14 @@ public class ArrayBagTest
         testFrequency(aBag, testStrings2);
         testContains(aBag, testStrings2);
         testOperations(aBag, bBag);
+
+        BagInterface<String> cBag = new ResizableArrayBag<>(3);
+        BagInterface<String> dBag = new ResizableArrayBag<>(4);
+        String[] string1 = {"A","B", "C"};
+        String[] string2 = {"B", "B", "D", "E"};
+        testAdd(cBag, string1);
+        testAdd(dBag, string2);
+        testOperations(cBag, dBag);
 
         // Removing strings
         String[] testStrings3 = {"", "B", "A", "C", "Z"};
@@ -100,7 +110,7 @@ public class ArrayBagTest
     } // end testIsEmpty
 
     // Tests the method getFrequencyOf.
-    private static void testFrequency(BagInterface<String> aBag, String[] tests)
+    private static void testFrequency(BagInterface<String> aBag, String @NotNull [] tests)
     {
         System.out.println("\nTesting the method getFrequencyOf:");
         for (int index = 0; index < tests.length; index++)
