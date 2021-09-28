@@ -228,7 +228,7 @@ public final class LinkedBag<T> implements BagInterface<T>
 
     /**
      *
-     * @param otherBag
+     * @param otherBag a LinkedBag that implements BagInterface
      * @return a LinkedBag that removes entries from this bag in which the other bag contains
      */
     public BagInterface<T> difference(BagInterface<T> otherBag)
